@@ -3,7 +3,7 @@ import "../globals.css";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
-import ToastProvider from "@/lib/models/toastProvider";
+import ToastProvider from "@/lib/toastProvider";
 
 export const metadata: Metadata = {
   title: "My Fashion - Admin Dashboard  ",

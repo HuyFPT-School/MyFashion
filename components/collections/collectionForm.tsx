@@ -58,11 +58,10 @@ const CollectionForm = () => {
   };
 
   return (
-    <div className="pl-10">
+    <div className="px-4 lg:px-6">
       <p className="text-2xl font-bold">Create Collection</p>
-      <Separator className="bg-gray-200 mt-4 mb-7" />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 pt-5 pb-5">
           <FormField
             control={form.control}
             name="title"
@@ -113,7 +112,7 @@ const CollectionForm = () => {
             <Button
               type="button"
               className="bg-red-500 text-white"
-              onClick={() => router.push("/collections")}
+              onClick={() => router.push("/dashboard/collections")}
             >
               Discard
             </Button>
