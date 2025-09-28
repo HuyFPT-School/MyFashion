@@ -2,17 +2,24 @@
 import { ColumnDef } from "@tanstack/react-table";
 import Delete from "../custom ui/delete";
 import Image from "next/image";
+import Link from "next/link";
 
 export const columns: ColumnDef<CollectionType>[] = [
   {
     accessorKey: "title",
     header: "Title",
-    cell: ({ row }) => <p className="text-center">{row.original.title}</p>,
+    cell: ({ row }) => (
+      <Link href={`/dashboard/collections/${row.original._id}`}>
+        <p className="text-center">{row.original.title}</p>
+      </Link>
+    ),
   },
   {
     accessorKey: "products",
     header: "Products",
-    cell: ({ row }) => <p className="text-center">{row.original.products.length}</p>,
+    cell: ({ row }) => (
+      <p className="text-center">{row.original.products.length}</p>
+    ),
   },
   {
     accessorKey: "images",

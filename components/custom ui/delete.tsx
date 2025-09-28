@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Button } from "../ui/button";
 import { Trash } from "lucide-react";
 import {
   AlertDialog,
@@ -50,7 +49,7 @@ const Delete: React.FC<DeleteProps> = ({ id }) => {
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction className="bg-red-500" onClick={onDelete}>
-            Continue
+            Delete
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
