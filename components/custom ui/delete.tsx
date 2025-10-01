@@ -13,20 +13,22 @@ import {
 } from "@/components/ui/alert-dialog";
 import toast from "react-hot-toast";
 interface DeleteProps {
+  item: string;
   id: string;
 }
-const Delete: React.FC<DeleteProps> = ({ id }) => {
+const Delete: React.FC<DeleteProps> = ({ id, item }) => {
   const [loading, setLoading] = useState(false);
   const onDelete = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`/api/collections/${id}`, {
+      const itemType = item === "product" ? "products" : "collections"
+      const res = await fetch(`/api/${itemType}/${id}`, {
         method: "DELETE",
       });
       if (res.ok) {
         setLoading(false);
-        window.location.href = "/dashboard/collections";
-        toast.success("Collection deleted");
+        window.location.href = `/dashboard/${itemType}`;
+        toast.success(`${item} deleted`);
       }
     } catch (error) {
       console.log(error);
@@ -42,8 +44,7 @@ const Delete: React.FC<DeleteProps> = ({ id }) => {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            This action cannot be undone. This will permanently delete your {item}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
