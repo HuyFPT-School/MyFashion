@@ -17,50 +17,48 @@ export const columns: ColumnDef<ProductType>[] = [
   {
     accessorKey: "category",
     header: "Category",
-    cell: ({ row }) => (
-      <p className="text-center">{row.original.products.length}</p>
-    ),
+    cell: ({ row }) => <p className="text-center">{row.original.category}</p>,
   },
   {
     accessorKey: "collections",
     header: "Collections",
     cell: ({ row }) => (
-      <p className="text-center">{row.original.collections.map((collection) => collection.title).join(", ")}</p>
+      <p className="text-center">
+        {row.original.collections
+          .map((collection) => collection.title)
+          .join(", ")}
+      </p>
     ),
   },
   {
     accessorKey: "price",
     header: "Price ($)",
     cell: ({ row }) => (
-      <p className="text-center">{row.original.products.length}</p>
+      <p className="text-center">{row.original.price.toString()}</p>
     ),
   },
   {
     accessorKey: "expense",
     header: "Expense ($)",
-    cell: ({ row }) => (
-      <p className="text-center">{row.original.products.length}</p>
-    ),
-  },
-  {
-    accessorKey: "category",
-    header: "Category",
-    cell: ({ row }) => (
-      <p className="text-center">{row.original.products.length}</p>
-    ),
+    cell: ({ row }) => <p className="text-center">{row.original.expense}</p>,
   },
   {
     accessorKey: "images",
     header: "Images",
     cell: ({ row }) => (
       <p className="flex justify-center items-center">
-        <Image
-          src={row.original.image}
-          alt={row.original.title}
-          width={100}
-          height={100}
-          className="rounded-md object-cover text-center"
-        />
+        {row.original.media && row.original.media.length > 0 ? (
+          <Image
+            src={row.original.media[0]}
+            alt={row.original.title}
+            width={100}
+            height={100}
+            className="rounded-md object-cover text-center"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        ) : (
+          <span className="text-gray-400">No image</span>
+        )}
       </p>
     ),
   },

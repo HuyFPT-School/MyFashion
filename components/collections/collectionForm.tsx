@@ -14,11 +14,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
-import ImageUpload from "../custom ui/imageUpload";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import Delete from "../custom ui/delete";
+import Loader from "../custom ui/loading";
+import ImageUpload from "../custom ui/imageUpload";
 
 const formSchema = z.object({
   title: z.string().min(2).max(20),
@@ -65,7 +66,7 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
     }
   };
 
-  return (
+  return loading ? <Loader /> : (
     <div className="px-4 lg:px-6">
       {initialData ? (
         <div className="flex items-center justify-between">

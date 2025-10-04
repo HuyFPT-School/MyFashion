@@ -32,6 +32,7 @@ export const columns: ColumnDef<CollectionType>[] = [
           width={100}
           height={100}
           className="rounded-md object-cover text-center"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </p>
     ),

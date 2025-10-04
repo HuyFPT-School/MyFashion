@@ -23,15 +23,23 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [open, setOpen] = useState(false);
-  let selected: CollectionType[];
-  if (value.length === 0) {
-    selected = [];
-  } else {
-    selected = value.map((id) =>
-      collections.find((collection) => collection._id === id)
-    ) as CollectionType[];
-  }
-  const selectables = collections.filter((collection) => !selected.includes(collection))
+  const selected: CollectionType[] = value
+    .map((id) => collections.find((collection) => collection._id === id))
+    .filter((collection): collection is CollectionType => {
+      return (
+        collection !== undefined &&
+        collection !== null &&
+        collection.title !== undefined &&
+        collection.title !== null
+      );
+    });
+
+  const selectables = collections.filter((collection) => 
+    collection && 
+    collection._id && 
+    collection.title && 
+    !value.includes(collection._id) 
+  );
   return (
     <Command className="overflow-visible bg-white">
       <div className="gap-1 border rounded-md">
@@ -60,7 +68,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                 key={collection._id}
                 onSelect={() => {
                   onChange(collection._id);
-                  setInputValue("")
+                  setInputValue("");
                 }}
                 onMouseDown={(e) => e.preventDefault()}
               >

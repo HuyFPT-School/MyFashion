@@ -10,7 +10,7 @@ interface ImageUploadProps {
   onRemove: (value: string) => void;
 }
 
-const ImageUpload: React.FC<ImageUploadProps> = ({
+const ImageUploads: React.FC<ImageUploadProps> = ({
   onChange,
   onRemove,
   value,
@@ -42,7 +42,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           </div>
         ))}
       </div>
-      <CldUploadWidget uploadPreset="ml_default" onSuccess={onUpload}>
+      <CldUploadWidget uploadPreset="ml_default" onUpload={onUpload}>
         {({ open }) => {
           return (
             <Button
@@ -60,4 +60,4 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   );
 };
 
-export default ImageUpload;
+export default ImageUploads;

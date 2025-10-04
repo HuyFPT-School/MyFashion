@@ -14,13 +14,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
-import ImageUpload from "../custom ui/imageUpload";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Delete from "../custom ui/delete";
-import MultiText from "../custom ui/multiText";
 import MultiSelect from "../custom ui/multiSelect";
+import MultiText from "../custom ui/multiText";
+import ImageUploads from "../custom ui/imageUploads";
 
 const formSchema = z.object({
   title: z.string().min(2).max(20),
@@ -145,7 +145,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               <FormItem>
                 <FormLabel>Media</FormLabel>
                 <FormControl>
-                  <ImageUpload
+                  <ImageUploads
                     value={field.value}
                     onChange={(url) => field.onChange([...field.value, url])}
                     onRemove={(url) => field.onChange([
@@ -280,10 +280,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       placeholder="Sizes"
                       value={field.value}
                       onChange={(size) => field.onChange([...field.value, size])}
-                      onRemove={(sizetoRemove) =>
+                      onRemove={(sizeToRemove) =>
                         field.onChange([
                           ...field.value.filter(
-                            (size) => size !== sizetoRemove
+                            (size) => size !== sizeToRemove
                           ),
                         ])
                       }
