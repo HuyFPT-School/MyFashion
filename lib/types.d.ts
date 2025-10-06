@@ -20,3 +20,10 @@ type ProductType = {
   createdAt: Date;
   updatedAt: Date;
 };
+type UserType = {
+  clerkId: string;
+  wishlist: [string];
+  orders: [string];
+  createdAt: string;
+  updatedAt: string;
+};
