@@ -23,9 +23,9 @@ import MultiText from "../custom ui/multiText";
 import ImageUploads from "../custom ui/imageUploads";
 
 const formSchema = z.object({
-  title: z.string().min(2).max(20),
+  title: z.string().min(2).max(50),
   description: z.string().min(2).max(500).trim(),
-  media: z.array(z.string()),
+  media: z.array(z.string()).min(1, "At least one image is required"),
   category: z.string(),
   collections: z.array(z.string()),
   tags: z.array(z.string()),

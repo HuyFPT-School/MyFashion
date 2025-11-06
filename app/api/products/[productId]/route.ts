@@ -9,10 +9,6 @@ export const GET = async (
   { params }: { params: { productId: string } }
 ) => {
   try {
-    const { userId } = await auth();
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
     await connectToDB();
     const { productId } = await params;
     const product = await Product.findById(productId).populate({
@@ -31,12 +27,13 @@ export const GET = async (
     return new NextResponse("Internal error", { status: 500 });
   }
 };
+
 export const POST = async (
   req: NextRequest,
   { params }: { params: { productId: string } }
 ) => {
   try {
-    const { userId } =  await auth();
+    const { userId } = await auth();
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -44,7 +41,9 @@ export const POST = async (
 
     await connectToDB();
 
-    const product = await Product.findById(params.productId);
+    const { productId } = await params;
+
+    const product = await Product.findById(productId);
 
     if (!product) {
       return new NextResponse(
@@ -67,31 +66,34 @@ export const POST = async (
     } = await req.json();
 
     if (!title || !description || !media || !category || !price || !expense) {
-      return new NextResponse("Not enough data to create a new product", {
+      return new NextResponse("Not enough data to update product", {
         status: 400,
       });
     }
 
-    const addedCollections = collections.filter(
-      (collectionId: string) => !product.collections.includes(collectionId)
+    const currentCollections = product.collections.map((id: string) =>
+      id.toString()
     );
-    // included in new data, but not included in the previous data
+    const newCollections = collections || [];
 
-    const removedCollections = product.collections.filter(
-      (collectionId: string) => !collections.includes(collectionId)
+    const addedCollections = newCollections.filter(
+      (collectionId: string) => !currentCollections.includes(collectionId)
     );
-    // included in previous data, but not included in the new data
+
+    const removedCollections = currentCollections.filter(
+      (collectionId: string) => !newCollections.includes(collectionId)
+    );
 
     // Update collections
     await Promise.all([
-      // Update added collections with this product
+      // Add product to new collections
       ...addedCollections.map((collectionId: string) =>
         Collection.findByIdAndUpdate(collectionId, {
-          $push: { products: product._id },
+          $addToSet: { products: product._id },
         })
       ),
 
-      // Update removed collections without this product
+      // Remove product from removed collections
       ...removedCollections.map((collectionId: string) =>
         Collection.findByIdAndUpdate(collectionId, {
           $pull: { products: product._id },
@@ -113,11 +115,10 @@ export const POST = async (
         colors,
         price,
         expense,
+        updatedAt: new Date(),
       },
       { new: true }
     ).populate({ path: "collections", model: Collection });
-
-    await updatedProduct.save();
 
     return NextResponse.json(updatedProduct, { status: 200 });
   } catch (err) {
@@ -125,6 +126,7 @@ export const POST = async (
     return new NextResponse("Internal error", { status: 500 });
   }
 };
+
 export const DELETE = async (
   req: NextRequest,
   { params }: { params: { productId: string } }
@@ -143,17 +145,20 @@ export const DELETE = async (
         { status: 404 }
       );
     }
-    await Product.findByIdAndDelete(product._id);
 
-    await Promise.all([
+    // 1. Remove product from collections first
+    await Promise.all(
       product.collections.map((collectionId: string) =>
         Collection.findByIdAndUpdate(collectionId, {
           $pull: { products: product._id },
         })
-      ),
-    ]);
+      )
+    );
 
-    return new NextResponse(JSON.stringify({ message: "Product delete" }), {
+    // 2. Then delete the product
+    await Product.findByIdAndDelete(product._id);
+
+    return new NextResponse(JSON.stringify({ message: "Product deleted" }), {
       status: 200,
     });
   } catch (error) {

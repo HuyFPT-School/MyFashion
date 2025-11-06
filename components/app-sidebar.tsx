@@ -1,9 +1,10 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
+  IconArticle,
+  IconBuildingStore,
   IconCamera,
-  IconChartBar,
   IconDashboard,
   IconDatabase,
   IconFileAi,
@@ -12,17 +13,16 @@ import {
   IconFolder,
   IconHelp,
   IconInnerShadowTop,
-  IconListDetails,
   IconReport,
   IconSearch,
   IconSettings,
+  IconShoppingBag,
   IconUsers,
-} from "@tabler/icons-react"
+} from "@tabler/icons-react";
 
-import { NavDocuments } from "@/components/nav-documents"
-import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
+import { NavMain } from "@/components/nav-main";
+import { NavSecondary } from "@/components/nav-secondary";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -31,8 +31,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
-import { useUser } from "@clerk/nextjs"
+} from "@/components/ui/sidebar";
+import { useUser } from "@clerk/nextjs";
+import Link from "next/link";
 const data = {
   navMain: [
     {
@@ -42,21 +43,21 @@ const data = {
     },
     {
       title: "Collections",
-      url: "/dashboard/collections/new",
-      icon: IconListDetails,
+      url: "/dashboard/collections",
+      icon: IconArticle,
     },
     {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
+      title: "Products",
+      url: "/dashboard/products",
+      icon: IconBuildingStore,
     },
     {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
+      title: "Orders",
+      url: "/dashboard/orders",
+      icon: IconShoppingBag,
     },
     {
-      title: "Team",
+      title: "Customer",
       url: "#",
       icon: IconUsers,
     },
@@ -143,15 +144,17 @@ const data = {
       icon: IconFileWord,
     },
   ],
-}
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const {user} = useUser();
-  const userData = user ? {
-    name: user.fullName || user.username || "Unknown",
-    email: user.emailAddresses[0]?.emailAddress || "No email",
-    avatar: user.imageUrl || "/default-avatar.png",
-  } : null
+  const { user } = useUser();
+  const userData = user
+    ? {
+        name: user.fullName || user.username || "Unknown",
+        email: user.emailAddresses[0]?.emailAddress || "No email",
+        avatar: user.imageUrl || "/default-avatar.png",
+      }
+    : null;
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -161,22 +164,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
+              <Link href="/dashboard">
                 <IconInnerShadowTop className="!size-5" />
                 <span className="text-base font-semibold">My Fashion.</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
-      <SidebarFooter>
-        {userData && <NavUser user={userData} />}
-      </SidebarFooter>
+      <SidebarFooter>{userData && <NavUser user={userData} />}</SidebarFooter>
     </Sidebar>
-  )
+  );
 }

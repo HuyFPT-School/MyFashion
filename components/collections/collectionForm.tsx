@@ -22,9 +22,9 @@ import Loader from "../custom ui/loading";
 import ImageUpload from "../custom ui/imageUpload";
 
 const formSchema = z.object({
-  title: z.string().min(2).max(20),
+  title: z.string().min(2).max(50),
   description: z.string().min(2).max(500).trim(),
-  image: z.string(),
+  image: z.string().min(1, "Image is required"),
 });
 interface CollectionFormProps {
   initialData?: CollectionType | null;
@@ -66,12 +66,14 @@ const CollectionForm: React.FC<CollectionFormProps> = ({ initialData }) => {
     }
   };
 
-  return loading ? <Loader /> : (
+  return loading ? (
+    <Loader />
+  ) : (
     <div className="px-4 lg:px-6">
       {initialData ? (
         <div className="flex items-center justify-between">
           <p className="text-2xl font-bold">Edit Collection</p>
-          <Delete id={initialData._id} item= "collection"/>
+          <Delete id={initialData._id} item="collection" />
         </div>
       ) : (
         <p className="text-2xl font-bold">Create Collection</p>

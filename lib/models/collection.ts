@@ -4,22 +4,22 @@ const collectionSchema = new mongoose.Schema({
     title: {
         type: String,
         require: true,
-        unique:true
+        unique: true,
     },
     description: String,
     image:  {
         type: String,
-        require: true
+        required: true,
     },
     products: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Product"
+        ref: "Product",
     }],
-    createAt: {
+    createdAt: {
         type: Date,
         default: Date.now
     },
-    updateAt: {
+    updatedAt: {
         type: Date,
         default: Date.now
     }
