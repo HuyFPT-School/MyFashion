@@ -3,7 +3,7 @@ import Order from "@/lib/models/order";
 import connectToDB from "@/lib/mongoDB";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (req: NextRequest, {params}:{ params: {orderId: string}}) => {
+export const GET = async (req: NextRequest, {params}:{ params: Promise<{orderId: string}>}) => {
     try {
         await connectToDB();
         const {orderId} = await params;
