@@ -2,15 +2,9 @@
 
 import Loader from "@/components/custom ui/loading";
 import ProductForm from "@/components/products/productForm";
-import React, { useEffect, useState, use } from "react";
+import React, { useEffect, useState} from "react";
 
-const ProductDetails = ({
-  params,
-}: {
-  params: Promise<{ productId: string }>;
-}) => {
-  const { productId } = use(params);
-
+const ProductDetails = ({ params }: { params: { productId: string } }) => {
   const [loading, setLoading] = useState(true);
   const [productDetails, setProductDetails] = useState<ProductType | null>(
     null
@@ -18,6 +12,7 @@ const ProductDetails = ({
 
   const getProductDetails = async () => {
     try {
+      const { productId } = await params;
       const res = await fetch(`/api/products/${productId}`, {
         method: "GET",
       });

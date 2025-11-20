@@ -50,7 +50,6 @@ const SuccessfulPayment = () => {
           const newOrderId = data.orderId;
           console.log("Order created:", newOrderId);
 
-          // Update hoặc tạo customer với orderId mới
           const customerRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/customers`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },

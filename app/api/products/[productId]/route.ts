@@ -146,7 +146,6 @@ export const DELETE = async (
       );
     }
 
-    // 1. Remove product from collections first
     await Promise.all(
       product.collections.map((collectionId: string) =>
         Collection.findByIdAndUpdate(collectionId, {
@@ -155,7 +154,6 @@ export const DELETE = async (
       )
     );
 
-    // 2. Then delete the product
     await Product.findByIdAndDelete(product._id);
 
     return new NextResponse(JSON.stringify({ message: "Product deleted" }), {

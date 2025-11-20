@@ -9,10 +9,6 @@ export const GET = async (
   { params }: { params: { collectionId: string } }
 ) => {
   try {
-    const { userId } = await auth();
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
     await connectToDB();
     const { collectionId } = await params;
     const collection = await Collection.findById(collectionId).populate({path: "products", model: Product});

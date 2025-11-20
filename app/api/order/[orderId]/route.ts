@@ -7,7 +7,7 @@ export const GET = async (req: NextRequest, {params}:{ params: {orderId: string}
     try {
         await connectToDB();
         const {orderId} = await params;
-        const orderDetails = await Order.findById(orderId).populate("products.product")
+        const orderDetails = await Order.findById(orderId).populate("products.product","title price media")
         if (!orderDetails) {
             return new NextResponse(JSON.stringify({message: "Not Found"}), {status: 404})
         }

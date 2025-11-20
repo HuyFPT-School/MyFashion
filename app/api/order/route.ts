@@ -38,7 +38,6 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Tạo order mới
     const newOrder = await Order.create({
       customerClerkId: customer.clerkId,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

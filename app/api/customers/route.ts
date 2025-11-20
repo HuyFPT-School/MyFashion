@@ -29,3 +29,13 @@ export const POST = async (req: NextRequest) => {
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 };
+export const GET = async (req: NextRequest) => {
+  try {
+    await connectToDB();
+    const customer = await Customer.find().sort({ createdAt: "desc" });
+    return NextResponse.json(customer, { status: 200 });
+  } catch (error) {
+    console.log("[customers_GET]", error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+};

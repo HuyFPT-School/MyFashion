@@ -20,7 +20,7 @@ const OrdersPage = () => {
       }
 
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/order`);
+        const res = await fetch(`/api/order/customers/${user.id}`);
         if (res.ok) {
           const data = await res.json();
           setOrders(data);
@@ -83,7 +83,6 @@ const OrdersPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-8 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Order History</h1>
           <p className="mt-2 text-sm text-gray-600">
@@ -91,7 +90,6 @@ const OrdersPage = () => {
           </p>
         </div>
 
-        {/* Orders List */}
         {!orders || orders.length === 0 ? (
           <div className="bg-white rounded-lg shadow-sm p-12 text-center">
             <Package className="w-16 h-16 text-gray-400 mx-auto mb-4" />
@@ -117,7 +115,6 @@ const OrdersPage = () => {
                   key={order._id}
                   className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow"
                 >
-                  {/* Order Header */}
                   <div className="border-b border-gray-200 bg-gray-50 px-6 py-4">
                     <div className="flex flex-wrap items-center justify-between gap-4">
                       <div className="flex flex-wrap items-center gap-6">
@@ -155,7 +152,6 @@ const OrdersPage = () => {
                       </div>
 
                       <div className="flex items-center gap-4">
-                        {/* Payment Status Badge */}
                         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border">
                           {getStatusIcon(order.paymentStatus)}
                           <span className="text-sm font-medium capitalize">
@@ -163,7 +159,6 @@ const OrdersPage = () => {
                           </span>
                         </div>
 
-                        {/* Order Status Badge */}
                         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border">
                           {getOrderStatusIcon(order.orderStatus)}
                           <span className="text-sm font-medium capitalize">
@@ -171,7 +166,6 @@ const OrdersPage = () => {
                           </span>
                         </div>
 
-                        {/* Expand Button */}
                         <button
                           onClick={() => toggleOrderExpand(order._id)}
                           className="p-2 hover:bg-gray-200 rounded-full transition-colors"
@@ -186,7 +180,6 @@ const OrdersPage = () => {
                     </div>
                   </div>
 
-                  {/* Order Items - Collapsible */}
                   {isExpanded && (
                     <div className="px-6 py-4">
                       <h4 className="text-sm font-medium text-gray-900 mb-4">
@@ -200,7 +193,6 @@ const OrdersPage = () => {
                             key={orderItem._id || index}
                             className="flex gap-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                           >
-                            {/* Product Image */}
                             <div className="flex-shrink-0">
                               <Image
                                 src={orderItem.product.media[0]}
@@ -211,7 +203,6 @@ const OrdersPage = () => {
                               />
                             </div>
 
-                            {/* Product Info */}
                             <div className="flex-grow">
                               <h5 className="text-sm font-medium text-gray-900 mb-2">
                                 {orderItem.product.title}
@@ -239,14 +230,13 @@ const OrdersPage = () => {
                               </div>
                             </div>
 
-                            {/* Price */}
                             <div className="flex-shrink-0 text-right">
                               <p className="text-sm font-medium text-gray-900">
-                                ${orderItem.product.price.toFixed(2)}
+                                ${orderItem.product.price}
                               </p>
                               {orderItem.quantity > 1 && (
                                 <p className="text-xs text-gray-500 mt-1">
-                                  ${(orderItem.product.price * orderItem.quantity).toFixed(2)} total
+                                  ${orderItem.product.price * orderItem.quantity} total
                                 </p>
                               )}
                             </div>
@@ -254,7 +244,6 @@ const OrdersPage = () => {
                         ))}
                       </div>
 
-                      {/* Shipping Address */}
                       {order.shippingAddress && (
                         <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
                           <h5 className="text-sm font-medium text-gray-900 mb-2 flex items-center gap-2">
@@ -270,7 +259,6 @@ const OrdersPage = () => {
                         </div>
                       )}
 
-                      {/* Transaction Info */}
                       {order.paymentTransId && (
                         <div className="mt-4 p-4 bg-green-50 rounded-lg border border-green-100">
                           <h5 className="text-sm font-medium text-gray-900 mb-2">
@@ -287,7 +275,6 @@ const OrdersPage = () => {
                         </div>
                       )}
 
-                      {/* Action Buttons */}
                       <div className="mt-6 flex flex-wrap gap-3">
                         <button
                           onClick={() => router.push(`/orders/${order._id}`)}

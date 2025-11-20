@@ -10,7 +10,6 @@ import {
   IconFileAi,
   IconFileDescription,
   IconFileWord,
-  IconFolder,
   IconHelp,
   IconInnerShadowTop,
   IconReport,
@@ -57,8 +56,8 @@ const data = {
       icon: IconShoppingBag,
     },
     {
-      title: "Customer",
-      url: "#",
+      title: "Customers",
+      url: "/dashboard/customers",
       icon: IconUsers,
     },
   ],

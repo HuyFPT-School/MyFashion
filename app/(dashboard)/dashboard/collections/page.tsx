@@ -25,7 +25,7 @@ const Collection = () => {
   }, []);
   console.log(collections);
   return (
-    <div className="px-4 lg:px-6">
+    <div className="px-10 py-5">
       <div className="flex items-center justify-between">
         <p className="text-2xl font-bold">Collections</p>
         <Link href={"/dashboard/collections/new"}>
