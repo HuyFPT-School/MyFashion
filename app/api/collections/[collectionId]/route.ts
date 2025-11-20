@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
   req: NextRequest,
-  { params }: { params: { collectionId: string } }
+  { params }: { params: Promise<{ collectionId: string }> }
 ) => {
   try {
     await connectToDB();
@@ -27,7 +27,7 @@ export const GET = async (
 
 export const POST = async (
   req: NextRequest,
-  { params }: { params: { collectionId: string } }
+  { params }: { params: Promise<{ collectionId: string }> }
 ) => {
   try {
     const { userId } = await auth();
@@ -60,7 +60,7 @@ export const POST = async (
 
 export const DELETE = async (
   req: NextRequest,
-  { params }: { params: { collectionId: string } }
+ { params }: { params: Promise<{ collectionId: string }> } 
 ) => {
   try {
     const { userId } = await auth();
