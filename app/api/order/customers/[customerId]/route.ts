@@ -4,7 +4,7 @@ import connectToDB from "@/lib/mongoDB";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { customerId: string } }
+  { params }: { params: Promise<{ customerId: string }> }
 ) {
   try {
     await connectToDB();
@@ -16,7 +16,7 @@ export async function GET(
         path: "products.product",
         select: "title price media",
       })
-      .sort({ createdAt: "desc" })
+      .sort({ createdAt: "desc" });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const formattedOrders = orders.map((order: any) => ({
