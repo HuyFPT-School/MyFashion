@@ -8,7 +8,6 @@ export async function POST(req: NextRequest) {
     
     const secretKey = process.env.MOMO_SECRET_KEY || "K951B6PE1waDMi640xX08PD3vg6EkVlz";
     
-    // Xác thực chữ ký từ MoMo
     const rawSignature = `accessKey=${body.accessKey}&amount=${body.amount}&extraData=${body.extraData}&message=${body.message}&orderId=${body.orderId}&orderInfo=${body.orderInfo}&orderType=${body.orderType}&partnerCode=${body.partnerCode}&payType=${body.payType}&requestId=${body.requestId}&responseTime=${body.responseTime}&resultCode=${body.resultCode}&transId=${body.transId}`;
     
     const signature = crypto.createHmac("sha256", secretKey).update(rawSignature).digest("hex");
@@ -19,10 +18,7 @@ export async function POST(req: NextRequest) {
 
     await connectToDB();
 
-    // Cập nhật trạng thái order dựa trên orderId
     if (body.resultCode === 0) {
-      // Thanh toán thành công
-      // TODO: Tìm và cập nhật order trong DB
       console.log("Payment successful:", body.orderId);
     } else {
       // Thanh toán thất bại
