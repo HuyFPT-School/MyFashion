@@ -1,23 +1,28 @@
 "use client";
+
 import useCart from "@/lib/hooks/useCart";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
 
-const SuccessfulPayment = () => {
-  const cart = useCart();
+const PaymentSuccessContent = () => {
+  const { cartItems, clearCart } = useCart();
   const { user } = useUser();
   const searchParams = useSearchParams();
   const [orderCreated, setOrderCreated] = useState(false);
 
+  const paymentMethod = useMemo(
+    () => searchParams.get("method") ?? "momo",
+    [searchParams]
+  );
+
   useEffect(() => {
     const createOrder = async () => {
-      if (orderCreated || !user || cart.cartItems.length === 0) return;
+      if (orderCreated || !user || cartItems.length === 0) return;
 
       try {
-        const method = searchParams.get("method") || "momo";
-        const total = cart.cartItems.reduce(
+        const total = cartItems.reduce(
           (sum, item) => sum + item.item.price * item.quantity,
           0
         );
@@ -37,11 +42,11 @@ const SuccessfulPayment = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            cartItems: cart.cartItems,
+            cartItems,
             customer,
             totalAmount: total,
             shippingAddress: customer.address,
-            paymentMethod: method,
+            paymentMethod,
           }),
         });
 
@@ -50,25 +55,26 @@ const SuccessfulPayment = () => {
           const newOrderId = data.orderId;
           console.log("Order created:", newOrderId);
 
-          const customerRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/customers`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              clerkId: customer.clerkId,
-              name: customer.name,
-              email: customer.email,
-              orderId: newOrderId,
-            }),
-          });
+          const customerRes = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/customers`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                clerkId: customer.clerkId,
+                name: customer.name,
+                email: customer.email,
+                orderId: newOrderId,
+              }),
+            }
+          );
 
-          if (customerRes.ok) {
-            console.log("Customer updated successfully");
-          } else {
+          if (!customerRes.ok) {
             console.error("Failed to update customer");
           }
 
           setOrderCreated(true);
-          cart.clearCart();
+          clearCart();
           localStorage.removeItem("checkoutCustomer");
         } else {
           console.error("Failed to create order");
@@ -79,7 +85,7 @@ const SuccessfulPayment = () => {
     };
 
     createOrder();
-  }, [cart, user, searchParams, orderCreated]);
+  }, [cartItems, clearCart, user, orderCreated, paymentMethod]);
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center gap-6 px-4 text-center">
@@ -113,5 +119,17 @@ const SuccessfulPayment = () => {
     </div>
   );
 };
+
+const SuccessfulPayment = () => (
+  <Suspense
+    fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-base font-medium">Loading payment status…</p>
+      </div>
+    }
+  >
+    <PaymentSuccessContent />
+  </Suspense>
+);
 
 export default SuccessfulPayment;
