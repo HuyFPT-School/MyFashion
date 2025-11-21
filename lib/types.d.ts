@@ -9,12 +9,12 @@ type ProductType = {
   _id: string;
   title: string;
   description: string;
-  media: [string];
+  media: string[];
   category: string;
-  collections: [CollectionType];
-  tags: [string];
-  sizes: [string];
-  colors: [string];
+  collections: CollectionType[];
+  tags: string[];
+  sizes: string[];
+  colors: string[];
   price: number;
   expense: number;
   createdAt: Date;
@@ -22,8 +22,8 @@ type ProductType = {
 };
 type UserType = {
   clerkId: string;
-  wishlist: [string];
-  orders: [string];
+  wishlist: string[];
+  orders: string[];
   createdAt: string;
   updatedAt: string;
 };
@@ -33,16 +33,16 @@ type OrderColumnType = {
   products: number;
   totalAmount: number;
   createdAt: string;
-}
+};
 type OrderItemType = {
   product: ProductType;
   color: string;
   size: string;
   quantity: number;
-}
+};
 
 type CustomerType = {
   clerkId: string;
   name: string;
-  email: string
-}
+  email: string;
+};

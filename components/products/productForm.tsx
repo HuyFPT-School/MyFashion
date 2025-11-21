@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Resolver, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,52 +31,68 @@ const formSchema = z.object({
   tags: z.array(z.string()),
   sizes: z.array(z.string()),
   colors: z.array(z.string()),
-  price: z.number().min(0.1),
-  expense: z.number().min(0.1),
+  price: z.coerce.number().min(0.1),
+  expense: z.coerce.number().min(0.1),
 });
+
+type ProductFormValues = z.infer<typeof formSchema>;
 interface ProductFormProps {
   initialData?: ProductType | null;
 }
 const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const [collections, setCollections] = useState<CollectionType[]>([]);
   const getCollections = async () => {
     try {
-      setLoading(true);
       const res = await fetch("/api/collections", {
-        method: "GET"
-      })
+        method: "GET",
+      });
       const data = await res.json();
       setCollections(data);
-      setLoading(false)
     } catch (error) {
       console.log("[collections_GET]", error);
-      toast.error("Something went wrong! Please try again.")
+      toast.error("Something went wrong! Please try again.");
     }
-  }
-  useEffect(() => {getCollections()},[])
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: initialData
-      ? {...initialData, collections: initialData.collections.map((collection) => collection._id)}
-      : {
-          title: "",
-          description: "",
-          media: [],
-          category: "",
-          collections: [],
-          tags: [],
-          sizes: [],
-          colors: [],
-          price: 0.1,
-          expense: 0.1,
-        },
+  };
+  useEffect(() => {
+    getCollections();
+  }, []);
+  const defaultValues: ProductFormValues = initialData
+    ? {
+        title: initialData.title ?? "",
+        description: initialData.description ?? "",
+        media: initialData.media ?? [],
+        category: initialData.category ?? "",
+        collections:
+          initialData.collections?.map((collection) =>
+            typeof collection === "string" ? collection : collection._id
+          ) ?? [],
+        tags: initialData.tags ?? [],
+        sizes: initialData.sizes ?? [],
+        colors: initialData.colors ?? [],
+        price: initialData.price ?? 0.1,
+        expense: initialData.expense ?? 0.1,
+      }
+    : {
+        title: "",
+        description: "",
+        media: [],
+        category: "",
+        collections: [],
+        tags: [],
+        sizes: [],
+        colors: [],
+        price: 0.1,
+        expense: 0.1,
+      };
+
+  const form = useForm<ProductFormValues>({
+    resolver: zodResolver(formSchema) as Resolver<ProductFormValues>,
+    defaultValues,
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: ProductFormValues) => {
     try {
-      setLoading(true);
       const url = initialData
         ? `/api/products/${initialData._id}`
         : "/api/products";
@@ -85,7 +101,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
         body: JSON.stringify(values),
       });
       if (res.ok) {
-        setLoading(false);
         toast.success(`Product ${initialData ? "updated" : "created"}`);
         window.location.href = "/dashboard/products";
         router.push("/dashboard/products");
@@ -101,7 +116,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
       {initialData ? (
         <div className="flex items-center justify-between">
           <p className="text-2xl font-bold">Edit Product</p>
-          <Delete item = "product" id={initialData._id} />
+          <Delete item="product" id={initialData._id} />
         </div>
       ) : (
         <p className="text-2xl font-bold">Create Product</p>
@@ -148,7 +163,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <ImageUploads
                     value={field.value}
                     onChange={(url) => field.onChange([...field.value, url])}
-                    onRemove={(url) => field.onChange([
+                    onRemove={(url) =>
+                      field.onChange([
                         ...field.value.filter((image) => image !== url),
                       ])
                     }
@@ -255,7 +271,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     <MultiText
                       placeholder="Colors"
                       value={field.value}
-                      onChange={(color) => field.onChange([...field.value, color])}
+                      onChange={(color) =>
+                        field.onChange([...field.value, color])
+                      }
                       onRemove={(colorToRemove) =>
                         field.onChange([
                           ...field.value.filter(
@@ -279,7 +297,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     <MultiText
                       placeholder="Sizes"
                       value={field.value}
-                      onChange={(size) => field.onChange([...field.value, size])}
+                      onChange={(size) =>
+                        field.onChange([...field.value, size])
+                      }
                       onRemove={(sizeToRemove) =>
                         field.onChange([
                           ...field.value.filter(
