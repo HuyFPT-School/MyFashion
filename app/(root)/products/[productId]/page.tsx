@@ -3,6 +3,8 @@ import ProductCard from "@/components/products/productCard";
 import ProductInfo from "@/components/products/productInfo";
 import { getProductDetails, getRelatedProducts } from "@/lib/actions";
 
+export const dynamic = 'force-dynamic';
+
 const ProductDetails = async ({
   params,
 }: {

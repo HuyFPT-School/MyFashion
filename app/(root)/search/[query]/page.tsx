@@ -2,6 +2,8 @@ import ProductCard from "@/components/products/productCard";
 import { getSearchedProducts } from "@/lib/actions";
 import React from "react";
 
+export const dynamic = 'force-dynamic';
+
 const SearchPage = async ({ params }: { params: { query: string } }) => {
   const searchedProducts = await getSearchedProducts(params.query);
   const decodedQuery = decodeURIComponent(params.query)

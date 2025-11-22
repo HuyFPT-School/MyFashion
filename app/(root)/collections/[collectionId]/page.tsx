@@ -3,6 +3,8 @@ import { getCollectionDetails } from "@/lib/actions";
 import Image from "next/image";
 import React from "react";
 
+export const dynamic = 'force-dynamic';
+
 const CollectionDetals = async ({
   params,
 }: {
