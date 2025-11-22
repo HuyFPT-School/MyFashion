@@ -3,17 +3,45 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import ToastProvider from "@/lib/toastProvider";
+import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
+import connectToDB from "@/lib/mongoDB";
+import User from "@/lib/models/user";
 
 export const metadata: Metadata = {
   title: "My Fashion - Admin Dashboard  ",
   description: "Admin dashboard to manage My Fashion's data",
 };
 
-export default function RootLayout({
+async function checkAdmin() {
+  try {
+    const { userId } = await auth();
+
+    if (!userId) {
+      return false;
+    }
+
+    await connectToDB();
+    const user = await User.findOne({ clerkId: userId });
+
+    return user?.role === "admin";
+  } catch (error) {
+    console.error("Check admin error:", error);
+    return false;
+  }
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isAdmin = await checkAdmin();
+
+  if (!isAdmin) {
+    redirect("/");
+  }
+
   return (
     <>
       <ToastProvider />
