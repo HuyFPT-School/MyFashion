@@ -1,13 +1,14 @@
-import React from "react";
+"use client";
+
 import { CldUploadWidget } from "next-cloudinary";
-import { Button } from "../ui/button";
 import { Plus, Trash } from "lucide-react";
+import { Button } from "../ui/button";
 import Image from "next/image";
 
 interface ImageUploadProps {
-  value: string[];
+  value: string;
   onChange: (value: string) => void;
-  onRemove: (value: string) => void;
+  onRemove: () => void;
 }
 
 const ImageUploads: React.FC<ImageUploadProps> = ({
@@ -20,42 +21,41 @@ const ImageUploads: React.FC<ImageUploadProps> = ({
     onChange(result.info.secure_url);
   };
   return (
-    <div>
-      <div className="mb-4 flex flex-wrap items-center gap-4">
-        {value.map((url, index) => (
-          <div key={index} className="relative w-[200px] h-[200px]">
-            <div className="absolute top-0 right-0 z-10">
-              <Button
-                type="button"
-                onClick={() => onRemove(url)}
-                className="bg-red-500 text-white h-8 w-8 p-0"
-              >
-                <Trash className="h-4 w-4" />
-              </Button>
-            </div>
-            <Image
-              src={url}
-              alt="collection"
-              fill
-              className="object-cover rounded-lg"
-            />
-          </div>
-        ))}
-      </div>
-      <CldUploadWidget uploadPreset="ml_default" onUpload={onUpload}>
-        {({ open }) => {
-          return (
+    <div className="mt-4 flex flex-wrap items-center gap-4">
+      {value ? (
+        <div className="relative w-[200px] h-[200px]">
+          <div className="absolute top-0 right-0 z-10">
             <Button
               type="button"
-              className="bg-gray-500 text-white"
-              onClick={() => open()}
+              onClick={onRemove}
+              className="bg-red-500 text-white h-8 w-8 p-0"
             >
-              <Plus className="h-4 w-4 mr-2" />
-              Upload Image
+              <Trash className="h-4 w-4" />
             </Button>
-          );
-        }}
-      </CldUploadWidget>
+          </div>
+          <Image
+            src={value}
+            alt="collection"
+            fill
+            className="object-cover rounded-lg"
+          />
+        </div>
+      ) : (
+        <CldUploadWidget uploadPreset="ml_default" onSuccess={onUpload}>
+          {({ open }) => {
+            return (
+              <Button
+                type="button"
+                className="bg-gray-500 text-white"
+                onClick={() => open()}
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Upload Image
+              </Button>
+            );
+          }}
+        </CldUploadWidget>
+      )}
     </div>
   );
 };

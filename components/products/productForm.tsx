@@ -25,7 +25,10 @@ import ImageUploads from "../custom ui/imageUploads";
 const formSchema = z.object({
   title: z.string().min(2).max(50),
   description: z.string().min(2).max(500).trim(),
-  media: z.array(z.string()).min(1, "At least one image is required"),
+  image1: z.string().min(1, "Image 1 is required"),
+  image2: z.string().optional(),
+  image3: z.string().optional(),
+  image4: z.string().optional(),
   category: z.string(),
   collections: z.array(z.string()),
   tags: z.array(z.string()),
@@ -61,7 +64,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
     ? {
         title: initialData.title ?? "",
         description: initialData.description ?? "",
-        media: initialData.media ?? [],
+        image1: initialData.media?.[0] ?? "",
+        image2: initialData.media?.[1] ?? "",
+        image3: initialData.media?.[2] ?? "",
+        image4: initialData.media?.[3] ?? "",
         category: initialData.category ?? "",
         collections:
           initialData.collections?.map((collection) =>
@@ -76,7 +82,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
     : {
         title: "",
         description: "",
-        media: [],
+        image1: "",
+        image2: "",
+        image3: "",
+        image4: "",
         category: "",
         collections: [],
         tags: [],
@@ -93,12 +102,24 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
 
   const onSubmit = async (values: ProductFormValues) => {
     try {
+      const media = [
+        values.image1,
+        values.image2,
+        values.image3,
+        values.image4,
+      ].filter(Boolean);
+
+      const payload = {
+        ...values,
+        media,
+      };
+
       const url = initialData
         ? `/api/products/${initialData._id}`
         : "/api/products";
       const res = await fetch(url, {
         method: "POST",
-        body: JSON.stringify(values),
+        body: JSON.stringify(payload),
       });
       if (res.ok) {
         toast.success(`Product ${initialData ? "updated" : "created"}`);
@@ -153,27 +174,74 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="media"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Media</FormLabel>
-                <FormControl>
-                  <ImageUploads
-                    value={field.value}
-                    onChange={(url) => field.onChange([...field.value, url])}
-                    onRemove={(url) =>
-                      field.onChange([
-                        ...field.value.filter((image) => image !== url),
-                      ])
-                    }
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div>
+            <FormLabel>Upload Images</FormLabel>
+            <div className="flex gap-4 flex-wrap">
+              <FormField
+                control={form.control}
+                name="image1"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <ImageUploads
+                        value={field.value}
+                        onChange={field.onChange}
+                        onRemove={() => field.onChange("")}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="image2"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <ImageUploads
+                        value={field.value || ""}
+                        onChange={field.onChange}
+                        onRemove={() => field.onChange("")}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="image3"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <ImageUploads
+                        value={field.value || ""}
+                        onChange={field.onChange}
+                        onRemove={() => field.onChange("")}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="image4"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <ImageUploads
+                        value={field.value || ""}
+                        onChange={field.onChange}
+                        onRemove={() => field.onChange("")}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
           <div className="md:grid md:grid-cols-3 gap-8">
             <FormField
               control={form.control}
