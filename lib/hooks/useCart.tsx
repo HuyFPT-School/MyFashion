@@ -20,6 +20,9 @@ interface CartStore {
   clearCart: () => void;
 }
 
+// Lưu trữ các store instances
+const stores = new Map<string, ReturnType<typeof createCartStore>>();
+
 // Tạo function để tạo store với clerkId
 const createCartStore = (clerkId: string) => {
   return create(
@@ -75,11 +78,10 @@ const createCartStore = (clerkId: string) => {
           set({ cartItems: newCartItems });
           toast.success("Item quantity decreased");
         },
-        clearCart: () =>
-          set((state) => (state.cartItems.length ? { cartItems: [] } : state)),
+        clearCart: () => set({ cartItems: [] }),
       }),
       { 
-        name: `cart-storage-${clerkId}`, // Key riêng cho mỗi user
+        name: `cart-storage-${clerkId}`,
         storage: createJSONStorage(() => localStorage) 
       }
     )
@@ -89,10 +91,15 @@ const createCartStore = (clerkId: string) => {
 // Hook để sử dụng cart
 const useCart = () => {
   const { user } = useUser();
-  const clerkId = user?.id || "guest"; // Nếu chưa đăng nhập thì dùng "guest"
+  const clerkId = user?.id || "guest";
   
-  // Tạo store chỉ 1 lần khi clerkId thay đổi
-  const store = useMemo(() => createCartStore(clerkId), [clerkId]);
+  // Lấy hoặc tạo store instance duy nhất cho clerkId
+  const store = useMemo(() => {
+    if (!stores.has(clerkId)) {
+      stores.set(clerkId, createCartStore(clerkId));
+    }
+    return stores.get(clerkId)!;
+  }, [clerkId]);
   
   return store();
 };
