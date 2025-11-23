@@ -22,16 +22,6 @@ const Cart = () => {
   );
 
   useEffect(() => {
-    if (user?.id) {
-      cart.setCustomerId(user.id);
-    } else {
-      // Khi user logout, clear cart
-      cart.clearCart();
-      cart.setCustomerId(null);
-    }
-  }, [user?.id]);
-
-  useEffect(() => {
     try {
       const getCustomer = async () => {
         const res = await fetch(
@@ -44,12 +34,10 @@ const Cart = () => {
           const data = await res.json();
           setPhone(data.phone);
           setAddress(data.address);
-          console.log(data);
+          console.log(data)
         }
       };
-      if (user?.id) {
-        getCustomer();
-      }
+      getCustomer();
     } catch (err) {
       console.log(err);
     }
