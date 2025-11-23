@@ -107,13 +107,10 @@ import {
 } from "@/components/ui/tabs"
 
 export const schema = z.object({
-  id: z.number(),
-  header: z.string(),
-  type: z.string(),
-  status: z.string(),
-  target: z.string(),
-  limit: z.string(),
-  reviewer: z.string(),
+  fullname: z.number(),
+  email: z.string(),
+  phone: z.number(),
+  role: z.string(),
 })
 
 // Create a separate component for the drag handle

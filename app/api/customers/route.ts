@@ -5,12 +5,14 @@ import { NextRequest, NextResponse } from "next/server";
 export const POST = async (req: NextRequest) => {
   try {
     await connectToDB();
-    const { clerkId, name, email, orderId } = await req.json();
+    const { clerkId, name, email, orderId, phone, address } = await req.json();
 
     let customer = await Customer.findOne({ clerkId });
 
     if (customer) {
       customer.orders.push(orderId);
+      customer.phone = phone;
+      customer.address = address;
       customer.updatedAt = new Date();
       await customer.save();
     } else {
@@ -19,6 +21,8 @@ export const POST = async (req: NextRequest) => {
         name,
         email,
         orders: [orderId],
+        phone,
+        address
       });
       await customer.save();
     }

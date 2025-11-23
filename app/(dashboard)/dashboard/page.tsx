@@ -9,12 +9,13 @@ import {
   getSalesPerDay,
   getSalesPerWeek,
   getSalesPerMonth,
+  calculateProfit,
 } from "@/lib/action/action";
 
 export default async function Page() {
   const { totalOrders, totalRevenue } = await getTotalSales();
   const totalCustomers = await getTotalCustomers();
-
+  const totalProfit = await calculateProfit()
   // Fetch data cho cả 3 views
   const dailyData = await getSalesPerDay();
   const weeklyData = await getSalesPerWeek();
@@ -27,6 +28,7 @@ export default async function Page() {
             totalRevenue={totalRevenue}
             totalOrders={totalOrders}
             totalCustomers={totalCustomers}
+            totalProfit={totalProfit}
           />
           <div className="px-4 lg:px-6">
             <ChartAreaInteractive

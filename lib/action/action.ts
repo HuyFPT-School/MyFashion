@@ -1,5 +1,6 @@
 import Customer from "../models/customer";
 import Order from "../models/order";
+import User from "../models/user";
 import connectToDB from "../mongoDB";
 
 export const getTotalSales = async () => {
@@ -11,6 +12,24 @@ export const getTotalSales = async () => {
     0
   );
   return { totalOrders, totalRevenue };
+};
+
+export const calculateProfit = async () => {
+  await connectToDB();
+  const orders = await Order.find().populate({
+    path: "products.product",
+    model: "Product",
+  });
+  let totalProfit = 0;
+  orders.forEach((order) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    order.products.forEach((item: any) => {
+      const product = item.product;
+      const profit = (product.price - product.expense) * item.quantity;
+      totalProfit += profit;
+    });
+  });
+  return totalProfit;
 };
 
 export const getTotalCustomers = async () => {
@@ -60,7 +79,8 @@ export const getSalesPerWeek = async () => {
   orders.forEach((order) => {
     const date = new Date(order.createdAt);
     const weekNumber = getWeekNumber(date);
-    salesPerWeek[weekNumber] = (salesPerWeek[weekNumber] || 0) + order.totalAmount;
+    salesPerWeek[weekNumber] =
+      (salesPerWeek[weekNumber] || 0) + order.totalAmount;
   });
 
   const graphData = Array.from({ length: 12 }, (_, i) => {

@@ -4,7 +4,7 @@ import { useUser } from "@clerk/nextjs";
 import { MinusCircle, PlusCircle, Trash } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const Cart = () => {
@@ -20,6 +20,27 @@ const Cart = () => {
     (acc, cartItem) => acc + cartItem.item.price * cartItem.quantity,
     0
   );
+
+  useEffect(() => {
+    try {
+      const getCustomer = async () => {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/customers`,
+          {
+            method: "GET",
+          }
+        );
+        if (res.ok) {
+          const data = await res.json();
+          setPhone(data.phone);
+          setAddress(data.address);
+        }
+      };
+      getCustomer();
+    } catch (err) {
+      console.log(err);
+    }
+  }, [user]);
 
   const handleCheckout = async () => {
     try {
@@ -137,27 +158,29 @@ const Cart = () => {
           })`}</span>
         </p>
 
-        <div className="flex flex-col gap-2">
-          <label className="text-sm font-semibold">Phone</label>
-          <input
-            type="tel"
-            className="border border-gray-300 rounded-lg px-3 py-2"
-            placeholder="+849984799"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-        </div>
+        <>
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-semibold">Phone</label>
+            <input
+              type="tel"
+              className="border border-gray-300 rounded-lg px-3 py-2"
+              placeholder="+849984799"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </div>
 
-        <div className="flex flex-col gap-2">
-          <label className="text-sm font-semibold">Address</label>
-          <textarea
-            className="border border-gray-300 rounded-lg px-3 py-2"
-            placeholder="27/2a đường số 2, Tam Phú, Thủ Đức"
-            rows={3}
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-        </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-semibold">Address</label>
+            <textarea
+              className="border border-gray-300 rounded-lg px-3 py-2"
+              placeholder="27/2a đường số 2, Tam Phú, Thủ Đức"
+              rows={3}
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </div>
+        </>
 
         <div className="flex flex-col gap-3">
           <p className="text-sm font-semibold">Payment method</p>

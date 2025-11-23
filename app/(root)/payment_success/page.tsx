@@ -65,6 +65,8 @@ const PaymentSuccessContent = () => {
                 name: customer.name,
                 email: customer.email,
                 orderId: newOrderId,
+                phone: customer.phone,
+                address: customer.address,
               }),
             }
           );

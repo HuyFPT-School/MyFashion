@@ -7,6 +7,8 @@ const customerSchema = new mongoose.Schema({
   orders: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
   },
+  phone: {type: String},
+  address: {type: String},
   createdAt: {
     type: Date,
     default: Date.now,
