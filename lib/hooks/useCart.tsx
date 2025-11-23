@@ -10,6 +10,8 @@ interface CartItem {
 
 interface CartStore {
   cartItems: CartItem[];
+  customerId: string | null;
+  setCustomerId: (id: string | null) => void;
   addItem: (item: CartItem) => void;
   removeItem: (IdToRemove: string) => void;
   increaseQuantity: (idToIncrease: string) => void;
@@ -20,6 +22,8 @@ const useCart = create(
   persist<CartStore>(
     (set, get) => ({
       cartItems: [],
+      customerId: null,
+      setCustomerId: (id: string | null) => set({ customerId: id }),
       addItem: (data: CartItem) => {
         const { item, quantity, color, size } = data;
         const currentItems = get().cartItems;
@@ -40,7 +44,9 @@ const useCart = create(
           set({ cartItems: newCartItems });
           toast.success("Item quantity increased", { icon: "🛒" });
         } else {
-          set({ cartItems: [...currentItems, { item, quantity, color, size }] });
+          set({
+            cartItems: [...currentItems, { item, quantity, color, size }],
+          });
           toast.success("Item added to cart", { icon: "🛒" });
         }
       },
