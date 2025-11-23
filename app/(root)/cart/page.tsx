@@ -34,6 +34,7 @@ const Cart = () => {
           const data = await res.json();
           setPhone(data.phone);
           setAddress(data.address);
+          console.log(data)
         }
       };
       getCustomer();
