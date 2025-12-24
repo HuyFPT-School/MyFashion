@@ -10,6 +10,7 @@ const ProductSchema = new mongoose.Schema(
     tags: [String],
     sizes: [String],
     colors: [String],
+    quantity: { type: Number, default: 1, min: 0 },
     price: {
       type: mongoose.Schema.Types.Decimal128,
       get: (v: mongoose.Schema.Types.Decimal128) => {
@@ -25,7 +26,10 @@ const ProductSchema = new mongoose.Schema(
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
   },
-  { toJSON: { getters: true } }
+  {
+    toJSON: { getters: true },
+    toObject: { getters: true },
+  }
 );
 const Product =
   mongoose.models.Product || mongoose.model("Product", ProductSchema);

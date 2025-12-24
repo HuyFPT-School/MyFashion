@@ -21,6 +21,7 @@ import Delete from "../custom ui/delete";
 import MultiSelect from "../custom ui/multiSelect";
 import MultiText from "../custom ui/multiText";
 import ImageUploads from "../custom ui/imageUploads";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 const formSchema = z.object({
   title: z.string().min(2).max(50),
@@ -36,6 +37,7 @@ const formSchema = z.object({
   colors: z.array(z.string()),
   price: z.coerce.number().min(0.1),
   expense: z.coerce.number().min(0.1),
+  quantity: z.coerce.number().min(1),
 });
 
 type ProductFormValues = z.infer<typeof formSchema>;
@@ -45,6 +47,9 @@ interface ProductFormProps {
 const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
   const router = useRouter();
   const [collections, setCollections] = useState<CollectionType[]>([]);
+
+  const sizeOptions = ["XS", "S", "M", "L", "XL", "XXL"];
+
   const getCollections = async () => {
     try {
       const res = await fetch("/api/collections", {
@@ -78,6 +83,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
         colors: initialData.colors ?? [],
         price: initialData.price ?? 0.1,
         expense: initialData.expense ?? 0.1,
+        quantity: initialData.quantity ?? 1,
       }
     : {
         title: "",
@@ -93,6 +99,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
         colors: [],
         price: 0.1,
         expense: 0.1,
+        quantity: 1,
       };
 
   const form = useForm<ProductFormValues>({
@@ -362,20 +369,36 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Sizes</FormLabel>
                   <FormControl>
-                    <MultiText
-                      placeholder="Sizes"
+                    <ToggleGroup
+                      type="multiple"
                       value={field.value}
-                      onChange={(size) =>
-                        field.onChange([...field.value, size])
-                      }
-                      onRemove={(sizeToRemove) =>
-                        field.onChange([
-                          ...field.value.filter(
-                            (size) => size !== sizeToRemove
-                          ),
-                        ])
-                      }
-                    />
+                      onValueChange={field.onChange}
+                      className="flex flex-wrap gap-2 justify-start"
+                    >
+                      {sizeOptions.map((size) => (
+                        <ToggleGroupItem
+                          key={size}
+                          value={size}
+                          aria-label={`Toggle ${size}`}
+                          className="data-[state=on]:bg-blue-500 data-[state=on]:text-white"
+                        >
+                          {size}
+                        </ToggleGroupItem>
+                      ))}
+                    </ToggleGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="quantity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Quantity</FormLabel>
+                  <FormControl>
+                    <Input type="number" placeholder="Quantity" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

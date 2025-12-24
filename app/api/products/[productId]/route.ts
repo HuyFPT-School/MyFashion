@@ -63,9 +63,18 @@ export const POST = async (
       colors,
       price,
       expense,
+      quantity,
     } = await req.json();
 
-    if (!title || !description || !media || !category || !price || !expense) {
+    if (
+      !title ||
+      !description ||
+      !media ||
+      !category ||
+      price == null ||
+      expense == null ||
+      quantity == null
+    ) {
       return new NextResponse("Not enough data to update product", {
         status: 400,
       });
@@ -115,6 +124,7 @@ export const POST = async (
         colors,
         price,
         expense,
+        quantity,
         updatedAt: new Date(),
       },
       { new: true }

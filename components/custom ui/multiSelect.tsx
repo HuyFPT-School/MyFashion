@@ -34,11 +34,12 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
       );
     });
 
-  const selectables = collections.filter((collection) => 
-    collection && 
-    collection._id && 
-    collection.title && 
-    !value.includes(collection._id) 
+  const selectables = collections.filter(
+    (collection) =>
+      collection &&
+      collection._id &&
+      collection.title &&
+      !value.includes(collection._id)
   );
   return (
     <Command className="overflow-visible bg-white">
@@ -46,7 +47,10 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
         {selected.map((collection) => (
           <Badge className="bg-white text-black" key={collection._id}>
             {collection.title}
-            <button className="ml-1 pt-2 pb-2" onClick={() => onRemove(collection._id)}>
+            <button
+              className="ml-1 pt-2 pb-2"
+              onClick={() => onRemove(collection._id)}
+            >
               <X className="h-3 w-3" />
             </button>
           </Badge>
@@ -62,7 +66,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
       </div>
       <div className="mt-2 relative">
         {open && (
-          <CommandGroup className="absolute w-full z-10 top-0 overflow-auto border rounded-md shadow-md">
+          <CommandGroup className="absolute w-full z-[9999] top-0 overflow-auto border rounded-md shadow-md bg-white max-h-60">
             {selectables.map((collection) => (
               <CommandItem
                 key={collection._id}

@@ -8,6 +8,7 @@ import {
   Menu,
   Search,
   ShoppingCart,
+  ChevronDown,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,6 +21,7 @@ const Navbar = () => {
   const { user } = useUser();
   const [dropdownMenu, setDropdownMenu] = useState(false);
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const cart = useCart();
   const wishlist = useWishlist();
@@ -48,7 +50,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="sticky top-0 z-10 py-2 px-10 flex gap-2 justify-between items-center bg-white max-sm:px-2">
+    <div className="sticky top-0 z-10 py-4 px-10 flex gap-2 justify-between items-center bg-white max-sm:px-2">
       <Link href="/">
         <Image src="/MyFashion.png" alt="logo" height={100} width={100} />
       </Link>
@@ -65,24 +67,154 @@ const Navbar = () => {
         >
           Sản phẩm mới
         </Link>
-        <Link
-          className={`font-bold ${pathname === "/ao" && "text-red-500"}`}
-          href="/"
+
+        <div
+          className="relative"
+          onMouseEnter={() => setActiveDropdown("ao")}
+          onMouseLeave={() => setActiveDropdown(null)}
         >
-          Áo
-        </Link>
-        <Link
-          className={`font-bold ${pathname === "/quan" && "text-red-500"}`}
-          href="/"
+          <span
+            className={`font-bold ${
+              pathname === "/ao" && "text-red-500"
+            } cursor-pointer hover:text-red-500 transition-colors flex items-center gap-1`}
+          >
+            Áo
+            <ChevronDown className="w-4 h-4" />
+          </span>
+          {activeDropdown === "ao" && (
+            <div className="absolute top-full left-0 pt-2 bg-white border border-gray-200 rounded-lg shadow-lg pb-2 min-w-[180px] z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+              <Link
+                href="/"
+                className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
+              >
+                Áo thun
+              </Link>
+              <Link
+                href="/"
+                className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
+              >
+                Áo sơ mi
+              </Link>
+              <Link
+                href="/"
+                className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
+              >
+                Áo khoác
+              </Link>
+              <Link
+                href="/"
+                className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
+              >
+                Áo len
+              </Link>
+              <Link
+                href="/"
+                className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
+              >
+                Áo hoodie
+              </Link>
+            </div>
+          )}
+        </div>
+
+        <div
+          className="relative"
+          onMouseEnter={() => setActiveDropdown("quan")}
+          onMouseLeave={() => setActiveDropdown(null)}
         >
-          Quần
-        </Link>
-        <Link
-          className={`font-bold ${pathname === "/phukien" && "text-red-500"}`}
-          href="/"
+          <span
+            className={`font-bold ${
+              pathname === "/quan" && "text-red-500"
+            } cursor-pointer hover:text-red-500 transition-colors flex items-center gap-1`}
+          >
+            Quần
+            <ChevronDown className="w-4 h-4" />
+          </span>
+          {activeDropdown === "quan" && (
+            <div className="absolute top-full left-0 pt-2 bg-white border border-gray-200 rounded-lg shadow-lg pb-2 min-w-[180px] z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+              <Link
+                href="/"
+                className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
+              >
+                Quần jean
+              </Link>
+              <Link
+                href="/"
+                className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
+              >
+                Quần tây
+              </Link>
+              <Link
+                href="/"
+                className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
+              >
+                Quần short
+              </Link>
+              <Link
+                href="/"
+                className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
+              >
+                Quần kaki
+              </Link>
+              <Link
+                href="/"
+                className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
+              >
+                Quần jogger
+              </Link>
+            </div>
+          )}
+        </div>
+
+        <div
+          className="relative"
+          onMouseEnter={() => setActiveDropdown("phukien")}
+          onMouseLeave={() => setActiveDropdown(null)}
         >
-          Phụ kiện
-        </Link>
+          <span
+            className={`font-bold ${
+              pathname === "/phukien" && "text-red-500"
+            } cursor-pointer hover:text-red-500 transition-colors flex items-center gap-1`}
+          >
+            Phụ kiện
+            <ChevronDown className="w-4 h-4" />
+          </span>
+          {activeDropdown === "phukien" && (
+            <div className="absolute top-full left-0 pt-2 bg-white border border-gray-200 rounded-lg shadow-lg pb-2 min-w-[180px] z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+              <Link
+                href="/"
+                className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
+              >
+                Mũ nón
+              </Link>
+              <Link
+                href="/"
+                className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
+              >
+                Túi xách
+              </Link>
+              <Link
+                href="/"
+                className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
+              >
+                Thắt lưng
+              </Link>
+              <Link
+                href="/"
+                className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
+              >
+                Ví
+              </Link>
+              <Link
+                href="/"
+                className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
+              >
+                Khăn
+              </Link>
+            </div>
+          )}
+        </div>
+
         <Link
           className={`font-bold ${pathname === "/uudai" && "text-red-500"}`}
           href="/"
@@ -117,7 +249,7 @@ const Navbar = () => {
           </button>
 
           {showSearchDropdown && (
-            <div className="absolute right-0 top-12 bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-80 max-sm:w-64">
+            <div className="absolute right-0 top-12 bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-80 max-sm:w-64 animate-in fade-in slide-in-from-top-2 duration-200">
               <div className="flex gap-2 items-center">
                 <input
                   className="flex-1 outline-none border border-gray-200 px-3 py-2 rounded-lg focus:border-black-500"
@@ -131,12 +263,6 @@ const Navbar = () => {
             </div>
           )}
         </div>
-        <Link href="/cart" className="relative flex items-center max-md:hidden">
-          <ShoppingCart className="w-6 h-6" />
-          <span className="absolute -top-2 -right-2 bg-red-700 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-            {cart.cartItems.length}
-          </span>
-        </Link>
         <Link href="/wishlist" className="relative flex items-center">
           <Heart className="w-6 h-6" />
           {wishlist.wishlistCount > 0 && (
@@ -145,6 +271,13 @@ const Navbar = () => {
             </span>
           )}
         </Link>
+        {user ? (
+          <UserButton afterSignOutUrl="/sign-in" />
+        ) : (
+          <Link href="/sign-in">
+            <CircleUserRound />
+          </Link>
+        )}
         {user && (
           <Menu
             className="cursor-pointer lg:hidden"
@@ -161,13 +294,13 @@ const Navbar = () => {
             </Link>
           </div>
         )}
-        {user ? (
-          <UserButton afterSignOutUrl="/sign-in" />
-        ) : (
-          <Link href="/sign-in">
-            <CircleUserRound />
-          </Link>
-        )}
+        <Link href="/cart" className="relative flex items-center max-md:hidden">
+          <ShoppingCart className="w-6 h-6" />
+          <span className="absolute -top-2 -right-2 bg-red-700 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+            {cart.cartItems.length}
+          </span>
+        </Link>
+        
       </div>
     </div>
   );
