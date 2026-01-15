@@ -4,10 +4,10 @@ import Link from "next/link";
 import HeartFavourite from "../custom ui/heart";
 interface ProductCardProps {
   product: ProductType;
-  updateSignedInUser?: (updatedUser : UserType) => void
+  updateSignedInUser?: (updatedUser: UserType) => void;
 }
 
-const ProductCard = ({product,updateSignedInUser}: ProductCardProps) => {
+const ProductCard = ({ product, updateSignedInUser }: ProductCardProps) => {
   return (
     <Link
       href={`/products/${product._id}`}
@@ -15,10 +15,10 @@ const ProductCard = ({product,updateSignedInUser}: ProductCardProps) => {
     >
       <Image
         src={product.media[0]}
-        alt="product"
+        alt={product.title}
         width={250}
         height={300}
-        className="h-[250px] rounded-lg object-cover shadow-lg"
+        className="rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105"
       />
       <div>
         <p className="text-base font-bold">{product.title}</p>
@@ -26,7 +26,10 @@ const ProductCard = ({product,updateSignedInUser}: ProductCardProps) => {
       </div>
       <div className="flex justify-between items-center">
         <p className="text-body font-bold">${product.price}</p>
-        <HeartFavourite product={product} updateSignedInUser={updateSignedInUser} />
+        <HeartFavourite
+          product={product}
+          updateSignedInUser={updateSignedInUser}
+        />
       </div>
     </Link>
   );

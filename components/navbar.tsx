@@ -70,45 +70,48 @@ const Navbar = () => {
 
         <div
           className="relative"
-          onMouseEnter={() => setActiveDropdown("ao")}
+          onMouseEnter={() => setActiveDropdown("shirt")}
           onMouseLeave={() => setActiveDropdown(null)}
         >
-          <span
-            className={`font-bold ${
-              pathname === "/ao" && "text-red-500"
-            } cursor-pointer hover:text-red-500 transition-colors flex items-center gap-1`}
-          >
-            Áo
-            <ChevronDown className="w-4 h-4" />
-          </span>
-          {activeDropdown === "ao" && (
+          <Link href="/category/Áo">
+            <span
+              className={`font-bold ${
+                pathname === "/shirt" && "text-red-500"
+              } cursor-pointer hover:text-red-500 transition-colors flex items-center gap-1`}
+            >
+              Áo
+              <ChevronDown className="w-4 h-4" />
+            </span>
+          </Link>
+
+          {activeDropdown === "shirt" && (
             <div className="absolute top-full left-0 pt-2 bg-white border border-gray-200 rounded-lg shadow-lg pb-2 min-w-[180px] z-50 animate-in fade-in slide-in-from-top-2 duration-200">
               <Link
-                href="/"
+                href="/category/Áo thun"
                 className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
               >
                 Áo thun
               </Link>
               <Link
-                href="/"
+                href="/category/Áo sơ mi"
                 className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
               >
                 Áo sơ mi
               </Link>
               <Link
-                href="/"
+                href="/category/Áo khoác"
                 className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
               >
                 Áo khoác
               </Link>
               <Link
-                href="/"
+                href="/category/Áo len"
                 className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
               >
                 Áo len
               </Link>
               <Link
-                href="/"
+                href="/category/Áo hoodie"
                 className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
               >
                 Áo hoodie
@@ -119,45 +122,48 @@ const Navbar = () => {
 
         <div
           className="relative"
-          onMouseEnter={() => setActiveDropdown("quan")}
+          onMouseEnter={() => setActiveDropdown("trousers")}
           onMouseLeave={() => setActiveDropdown(null)}
         >
-          <span
-            className={`font-bold ${
-              pathname === "/quan" && "text-red-500"
-            } cursor-pointer hover:text-red-500 transition-colors flex items-center gap-1`}
-          >
-            Quần
-            <ChevronDown className="w-4 h-4" />
-          </span>
-          {activeDropdown === "quan" && (
+          <Link href="/category/Quần">
+            <span
+              className={`font-bold ${
+                pathname === "/trousers" && "text-red-500"
+              } cursor-pointer hover:text-red-500 transition-colors flex items-center gap-1`}
+            >
+              Quần
+              <ChevronDown className="w-4 h-4" />
+            </span>
+          </Link>
+
+          {activeDropdown === "trousers" && (
             <div className="absolute top-full left-0 pt-2 bg-white border border-gray-200 rounded-lg shadow-lg pb-2 min-w-[180px] z-50 animate-in fade-in slide-in-from-top-2 duration-200">
               <Link
-                href="/"
+                href="/category/Quần jean"
                 className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
               >
                 Quần jean
               </Link>
               <Link
-                href="/"
+                href="/category/Quần tây"
                 className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
               >
                 Quần tây
               </Link>
               <Link
-                href="/"
+                href="/category/Quần short"
                 className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
               >
                 Quần short
               </Link>
               <Link
-                href="/"
+                href="/category/Quần kaki"
                 className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
               >
                 Quần kaki
               </Link>
               <Link
-                href="/"
+                href="/category/Quần jogger"
                 className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
               >
                 Quần jogger
@@ -168,45 +174,48 @@ const Navbar = () => {
 
         <div
           className="relative"
-          onMouseEnter={() => setActiveDropdown("phukien")}
+          onMouseEnter={() => setActiveDropdown("accessory")}
           onMouseLeave={() => setActiveDropdown(null)}
         >
-          <span
-            className={`font-bold ${
-              pathname === "/phukien" && "text-red-500"
-            } cursor-pointer hover:text-red-500 transition-colors flex items-center gap-1`}
-          >
-            Phụ kiện
-            <ChevronDown className="w-4 h-4" />
-          </span>
-          {activeDropdown === "phukien" && (
+          <Link href="/category/phụ kiện">
+            <span
+              className={`font-bold ${
+                pathname === "/accessory" && "text-red-500"
+              } cursor-pointer hover:text-red-500 transition-colors flex items-center gap-1`}
+            >
+              Phụ kiện
+              <ChevronDown className="w-4 h-4" />
+            </span>
+          </Link>
+
+          {activeDropdown === "accessory" && (
             <div className="absolute top-full left-0 pt-2 bg-white border border-gray-200 rounded-lg shadow-lg pb-2 min-w-[180px] z-50 animate-in fade-in slide-in-from-top-2 duration-200">
               <Link
-                href="/"
+                href="/category/Mũ nón"
                 className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
               >
                 Mũ nón
               </Link>
               <Link
-                href="/"
+                href="/category/Túi xách"
                 className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
               >
                 Túi xách
               </Link>
               <Link
-                href="/"
+                href="/category/Thắt lưng"
                 className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
               >
                 Thắt lưng
               </Link>
               <Link
-                href="/"
+                href="/category/Ví"
                 className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
               >
                 Ví
               </Link>
               <Link
-                href="/"
+                href="/category/Khăn"
                 className="block px-4 py-2 hover:bg-gray-100 hover:text-red-500 transition-colors"
               >
                 Khăn
@@ -216,19 +225,25 @@ const Navbar = () => {
         </div>
 
         <Link
-          className={`font-bold ${pathname === "/uudai" && "text-red-500"}`}
+          className={`font-bold ${pathname === "/sales" && "text-red-500"}`}
           href="/"
         >
           Ưu đãi
         </Link>
-        <Link
-          className={`font-bold ${
-            pathname === "/thongtinthuonghieu" && "text-red-500"
-          }`}
-          href="/"
+        <a
+          className={`font-bold cursor-pointer hover:text-red-500 transition-colors`}
+          onClick={(e) => {
+            e.preventDefault();
+            const element = document.getElementById("thongtinthuonghieu");
+            if (element) {
+              element.scrollIntoView({ behavior: "smooth", block: "start" });
+            } else {
+              router.push("/#thongtinthuonghieu");
+            }
+          }}
         >
           Thông tin thương hiệu
-        </Link>
+        </a>
         <Link
           className={`font-bold ${
             pathname === "/order-history" && "text-red-500"
@@ -300,7 +315,6 @@ const Navbar = () => {
             {cart.cartItems.length}
           </span>
         </Link>
-        
       </div>
     </div>
   );

@@ -8,6 +8,8 @@ import { auth } from "@clerk/nextjs/server";
 import connectToDB from "@/lib/mongoDB";
 import User from "@/lib/models/user";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "My Fashion - Admin Dashboard  ",
   description: "Admin dashboard to manage My Fashion's data",

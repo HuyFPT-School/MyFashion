@@ -140,7 +140,7 @@ const Home = () => {
             <Link
               key={category.name}
               href={category.link}
-              className="group relative h-[400px] rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all"
+              className="group relative h-[800px] rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all"
             >
               <Image
                 src={category.image}
@@ -180,24 +180,22 @@ const Home = () => {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-8 gap-6">
+          <div className="flex flex-wrap gap-6 justify-center">
             {products.map((product) => (
               <Link
                 key={product._id}
                 href={`/products/${product._id}`}
-                className="group bg-white rounded-lg overflow-hidden shadow hover:shadow-xl transition-all"
+                className="w-[220px] flex flex-col gap-2"
               >
-                <div className="relative h-[300px] bg-gray-100">
-                  <Image
-                    src={product.media[0]}
-                    alt={product.title}
-                    fill
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                    className="object-contain group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div className="p-2 text-center">
-                  <h4 className="font-bold text-sm mb-2 group-hover:text-red-500 transition-colors line-clamp-2">
+                <Image
+                  src={product.media[0]}
+                  alt={product.title}
+                  width={250}
+                  height={300}
+                  className="rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105"
+                />
+                <div className="text-center">
+                  <h4 className="font-bold text-sm mb-2 hover:text-red-500 transition-colors line-clamp-2">
                     {product.title}
                   </h4>
                   <span className="text-red-500 font-bold text-sm">
@@ -244,6 +242,80 @@ const Home = () => {
                   Đăng Ký
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="thongtinthuonghieu"
+        className="py-16 px-10 max-md:px-4 bg-gradient-to-b from-white to-gray-50"
+      >
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-4">Về MyFashion</h2>
+          <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+            Nơi phong cách gặp gỡ chất lượng
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
+            <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl">
+              <Image
+                src="/Banner.png"
+                alt="MyFashion Store"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-gray-800">
+                Câu Chuyện Của Chúng Tôi
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                MyFashion được thành lập với niềm đam mê mang đến những sản phẩm
+                thời trang chất lượng cao, phù hợp với phong cách sống hiện đại.
+                Chúng tôi tin rằng mỗi người đều xứng đáng có được những món đồ
+                giúp họ tự tin thể hiện bản thân.
+              </p>
+              <p className="text-gray-600 leading-relaxed">
+                Với hơn 10 năm kinh nghiệm trong ngành thời trang, chúng tôi cam
+                kết mang đến trải nghiệm mua sắm tuyệt vời nhất cho khách hàng,
+                từ chất lượng sản phẩm đến dịch vụ chăm sóc khách hàng.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center p-8 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all">
+              <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-4xl">🎯</span>
+              </div>
+              <h4 className="text-xl font-bold mb-3">Sứ Mệnh</h4>
+              <p className="text-gray-600">
+                Mang phong cách thời trang đẳng cấp đến gần hơn với mọi người,
+                giúp bạn tự tin tỏa sáng mỗi ngày
+              </p>
+            </div>
+
+            <div className="text-center p-8 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all">
+              <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-4xl">👁️</span>
+              </div>
+              <h4 className="text-xl font-bold mb-3">Tầm Nhìn</h4>
+              <p className="text-gray-600">
+                Trở thành thương hiệu thời trang hàng đầu Việt Nam, được yêu
+                thích và tin tưởng bởi hàng triệu khách hàng
+              </p>
+            </div>
+
+            <div className="text-center p-8 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all">
+              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-4xl">💎</span>
+              </div>
+              <h4 className="text-xl font-bold mb-3">Giá Trị Cốt Lõi</h4>
+              <p className="text-gray-600">
+                Chất lượng - Uy tín - Sáng tạo. Luôn đặt khách hàng làm trung
+                tâm trong mọi quyết định của chúng tôi
+              </p>
             </div>
           </div>
         </div>
